@@ -1,4 +1,4 @@
-package org.nealxyc.tinycrawler.crawler;
+package nealxyc.tinycrawler.crawler;
 
 import java.util.List;
 import java.util.regex.Pattern;

@@ -1,4 +1,4 @@
-package org.nealxyc.tinycrawler.crawler;
+package nealxyc.tinycrawler.crawler;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
