@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class AjaxServlet
  */
-@WebServlet("/ajax/")
+
 public class AjaxServlet extends nealxyc.dataaccess.servlet.AjaxAccessServlet {
 	private static final long serialVersionUID = 1L;
 
+	
 
 }

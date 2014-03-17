@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import nealxyc.dataaccess.AccessModule;
 import nealxyc.dataaccess.AccessPoint;
+import nealxyc.dataaccess.AccessPointName;
 import nealxyc.dataaccess.ByClassParameterBinder;
 import nealxyc.dataaccess.AccessModule.Helper;
 import nealxyc.dataaccess.HttpParameterMap;
@@ -26,8 +27,8 @@ public class AjaxAccessServlet extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(AjaxAccessServlet.class);
-	private static String baseUri = "/ajax";
-
+	private String baseUri = "/ajax";
+	private NameInspector ni = null;
 
 	//	private HashMap<String, Object> paramNameToValueMap;
 
@@ -37,7 +38,7 @@ public class AjaxAccessServlet extends HttpServlet {
 		if(uri != null){
 			setBaseURI(uri);
 		}
-		
+		this.ni = new NameInspector(baseUri);
 	}
 
 	/** Process the HTTP Get request */
@@ -47,16 +48,16 @@ public class AjaxAccessServlet extends HttpServlet {
 		HttpSession sess = request.getSession(false);
 
 		String reqURI = request.getRequestURI() ;
-		String moduleName = getModuleName(reqURI);
-		String ap = getAccessPoint(reqURI);
-		
-		if (StringUtils.isNotEmpty(moduleName)) {
-
+		AccessPointName apn = this.ni.inspect(reqURI);
+		log.debug("Request url: " + reqURI);
+		if (StringUtils.isNotEmpty(apn.moduleName)) {
+			log.debug("Module Name: " + apn.moduleName);
+			log.debug("Access Point: " +apn.accessPoint);
 			try {
-				AccessModule ada = new AccessModule.Helper().lookupModule(moduleName);//lookupModule(moduleName);
+				AccessModule ada = AccessModule.Helper.lookupModule(apn.moduleName);//lookupModule(moduleName);
 				//ada.setPermAccessorBean(pab);
 				if (ada != null) {
-					Method m = ada.lookupMethod(ap);//lookupMethod(ada.getClass(), ap);
+					Method m = AccessModule.Helper.lookupAccessPoint(ada, apn.accessPoint) ;//lookupMethod(ada.getClass(), ap);
 					if (m != null) {
 						ByClassParameterBinder binder = new ByClassParameterBinder();
 						binder.add(request).add(response);
@@ -112,25 +113,7 @@ public class AjaxAccessServlet extends HttpServlet {
 		baseUri = baseURI;
 	}
 
-	protected String getModuleName(String reqURI) {
-		if (reqURI != null && reqURI.startsWith(baseUri)) {
-			int indexModuleStart = reqURI.indexOf(baseUri) + baseUri.length();
-			int indexModuleEnd = reqURI.indexOf('/', indexModuleStart);
-			return reqURI.substring(indexModuleStart, indexModuleEnd);
-		}
-		return "";
-	}
 
-
-	protected String getAccessPoint(String reqURI) {
-		String moduleName = getModuleName(reqURI);
-		if (!StringUtils.isEmpty(moduleName)) {
-			String pre = baseUri + moduleName;
-			int indexAPStart = reqURI.indexOf(pre) + pre.length();
-			return reqURI.substring(indexAPStart);
-		}
-		return "";
-	}
 
 
 	protected boolean isEmpty(String str) {
@@ -156,6 +139,7 @@ public class AjaxAccessServlet extends HttpServlet {
 		response.setStatus(status);
 		response.getWriter().print("//" + status + " " + msg);
 	}
+	
 	/**
 	 * Looks up the class with name {@code moduleName}. It needs to be a sub class of {@link AccessModule}. If found returns an
 	 * instance of that class by calling its default constructor.
@@ -179,8 +163,7 @@ public class AjaxAccessServlet extends HttpServlet {
 		}
 		return null;
 	}
-
-
+	
 	/**
 	 * Looks up the method of class {@code clazz} that has an Annotation of type {@link AccessPoint} with value equals to String
 	 * {@code ap}.
@@ -199,5 +182,7 @@ public class AjaxAccessServlet extends HttpServlet {
 		}
 		return null;
 	}
+
+	
 
 }
