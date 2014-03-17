@@ -5,3 +5,6 @@
 temp
 build
 lib
+
+# Twitter4j configuration
+conf/twitter4j.properties
