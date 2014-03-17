@@ -29,5 +29,6 @@
 		<dependency org="log4j" name="log4j" rev="1.2.14" />
 		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.0.1" />
 		<dependency org="org.twitter4j" name="twitter4j-core" rev="[4.0,)" />
+		<dependency org="edu.uci.ics" name="crawler4j" rev="3.5" />
 	</dependencies>
 </ivy-module>
