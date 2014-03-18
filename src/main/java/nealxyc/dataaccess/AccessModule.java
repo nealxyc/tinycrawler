@@ -50,7 +50,6 @@ public abstract class AccessModule {
 				}
 			}
 			return null;
-//			return am.lookupMethod(ap);
 		}
 		
 		public static boolean isAPMatch(String annotated, String ap){

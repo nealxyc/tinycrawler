@@ -34,7 +34,7 @@ public class AjaxAccessServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig conf) {
-		String uri = conf.getInitParameter("baseURI") ;
+		String uri = ServletUtils.getInitParameter(conf, "baseUri", "baseuri", "baseURI", "base_uri");
 		if(uri != null){
 			setBaseURI(uri);
 		}
