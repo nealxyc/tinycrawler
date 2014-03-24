@@ -30,5 +30,7 @@
 		<dependency org="javax.servlet" name="javax.servlet-api" rev="3.0.1" />
 		<dependency org="org.twitter4j" name="twitter4j-core" rev="[4.0,)" />
 		<dependency org="edu.uci.ics" name="crawler4j" rev="3.5" />
+		<dependency	name="guava" rev="16.0.1" org="com.google.guava" />
+		<dependency org="com.google.code.gson" name="gson" rev="2.2.4"/>
 	</dependencies>
 </ivy-module>

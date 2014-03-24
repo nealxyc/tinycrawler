@@ -28,4 +28,30 @@ public class HttpParameterMap {
 		return null;
 
 	}
+	
+	public String[] getValues(String key){
+		String[] values = map.get(key);
+		return values ;
+	}
+	
+	public int getInt(String key, int defaultValue){
+		try{
+			String val = get(key);
+			if(val == null){
+				return defaultValue ;
+			}else{
+				return Integer.parseInt(val);
+			}
+		}catch(Exception e){
+			return defaultValue ;
+		}
+	}
+	
+	public boolean getBoolean(String key, boolean defaultValue){
+		try{
+			return Boolean.parseBoolean(get(key));
+		}catch(Exception e){
+			return defaultValue ;
+		}
+	}
 }

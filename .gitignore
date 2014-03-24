@@ -8,3 +8,5 @@ lib
 
 # Twitter4j configuration
 conf/twitter4j.properties
+# bower libs
+**/bower_components
